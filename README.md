@@ -1,4 +1,4 @@
 # IoT-Firewall
 
-## Dependencies
+### Dependencies
 - python3-nmap
