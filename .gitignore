@@ -1,2 +1,5 @@
 # Device list
 dev_list
+
+# pycache
+/lib/__pycache__
