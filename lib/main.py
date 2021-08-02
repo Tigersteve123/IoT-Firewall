@@ -1,6 +1,6 @@
 from scanner import scanner
 
-DEV_LIST_LOC = '../dev_list'
+DEV_LIST_LOC = 'dev_list.json'
 HOST = '192.168.0.0/24'
 
 sc = scanner(HOST)
