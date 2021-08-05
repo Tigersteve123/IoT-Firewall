@@ -1,0 +1,29 @@
+echo -e "\n\nLoading simple rc.firewall-iptables version $FWVER..\n"
+DEPMOD=/sbin/depmod
+MODPROBE=/sbin/modprobe
+
+EXTIF="enp0s8"
+INTIF="enp0s3"
+#INTIF2="eth0"
+echo "   External Interface:  $EXTIF"
+echo "   Internal Interface:  $INTIF"
+
+
+echo "   Enabling forwarding.."
+echo "1" > /proc/sys/net/ipv4/ip_forward
+echo "   Enabling DynamicAddr.."
+echo "1" > /proc/sys/net/ipv4/ip_dynaddr 
+echo "   Clearing any existing rules and setting default policy.."
+
+iptables-restore <<-EOF
+*filter
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+-A FORWARD -i "$EXTIF" -o "$INTIF" -p tcp -dport 80 -j ACCEPT 
+-A FORWARD -i "$EXTIF" -o "$INTIF" -p tcp -dport 22 -j ACCEPT 
+-A FORWARD -i "$INTIF" -o "$EXTIF" -j ACCEPT
+COMMIT
+EOF
+
+echo -e "\nrc.firewall-iptables v$FWVER done.\n"
